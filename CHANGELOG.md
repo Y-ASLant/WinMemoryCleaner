@@ -1,3 +1,18 @@
+### 3.0.9
+
+**2026-06-11**
+
+- Added delayed settings save mechanism (500ms debounce) to reduce disk I/O
+- Cached Font and StringFormat objects in NotificationService tray icon
+- Cached language list in Localizer to avoid repeated loading
+- Cached brushes collection in MainViewModel
+- Replaced GCHandle with Marshal.AllocHGlobal for NtSetSystemInformation
+- Added optimization mutex in WinService to prevent reentrant execution
+- Moved RunOnStartup to ThreadPool to avoid blocking UI thread
+- Fixed process resource disposal in Processes property
+- Reduced lock contention in Optimize method by splitting critical sections
+- Improved service state checking with proper error handling
+
 ### 3.0.8
 
 **2025-12-13**
