@@ -627,6 +627,8 @@ namespace WinMemoryCleaner
         /// <param name="enable">if set to <c>true</c> [enable].</param>
         public static void RunOnStartup(bool enable)
         {
+            System.Threading.ThreadPool.QueueUserWorkItem(_ =>
+            {
             try
             {
                 if (enable)
@@ -765,6 +767,7 @@ namespace WinMemoryCleaner
             {
                 Logger.Error(string.Format(Localizer.Culture, "An error occurred while managing the scheduled task for app startup. Error: {0}", e.GetMessage()));
             }
+            });
         }
 
         /// <summary>

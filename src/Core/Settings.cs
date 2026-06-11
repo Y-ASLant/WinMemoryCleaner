@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
@@ -13,13 +14,14 @@ namespace WinMemoryCleaner
     public static class Settings
     {
         private static readonly CultureInfo _culture = new CultureInfo(Constants.Windows.Locale.Name.English);
+        private static bool _isDirty;
+        private static DispatcherTimer _saveTimer;
 
         #region Constructors
 
         static Settings()
         {
             Load();
-            Save();
         }
 
         #endregion
@@ -296,6 +298,29 @@ namespace WinMemoryCleaner
             {
                 Logger.Error(e);
             }
+        }
+
+        public static void MarkDirty()
+        {
+            _isDirty = true;
+
+            if (_saveTimer == null)
+            {
+                _saveTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(500) };
+                _saveTimer.Tick += (sender, args) =>
+                {
+                    _saveTimer.Stop();
+
+                    if (_isDirty)
+                    {
+                        _isDirty = false;
+                        Save();
+                    }
+                };
+            }
+
+            _saveTimer.Stop();
+            _saveTimer.Start();
         }
 
         #endregion
