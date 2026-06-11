@@ -24,7 +24,7 @@ namespace WinMemoryCleaner
         private readonly IComputerService _computerService;
         private readonly IHotkeyService _hotKeyService;
         private bool _isOptimizationKeyValid;
-        private bool _isOptimizationRunning;
+        private int _isOptimizationRunning;
         private bool _isReiniziliating;
         private DateTimeOffset _lastAutoOptimizationByInterval = DateTimeOffset.Now;
         private DateTimeOffset _lastAutoOptimizationByMemoryUsage = DateTimeOffset.Now;
@@ -135,7 +135,10 @@ namespace WinMemoryCleaner
                 {
                     IsBusy = true;
 
-                    _lastAutoOptimizationByInterval = DateTimeOffset.Now;
+                    lock (_lockObject)
+                    {
+                        _lastAutoOptimizationByInterval = DateTimeOffset.Now;
+                    }
 
                     Settings.AutoOptimizationInterval = value;
                     Settings.MarkDirty();
@@ -165,7 +168,10 @@ namespace WinMemoryCleaner
                 {
                     IsBusy = true;
 
-                    _lastAutoOptimizationByMemoryUsage = DateTimeOffset.Now;
+                    lock (_lockObject)
+                    {
+                        _lastAutoOptimizationByMemoryUsage = DateTimeOffset.Now;
+                    }
 
                     Settings.AutoOptimizationMemoryUsage = value;
                     Settings.MarkDirty();
@@ -476,10 +482,10 @@ namespace WinMemoryCleaner
         /// </value>
         public bool IsOptimizationRunning
         {
-            get { return _isOptimizationRunning; }
+            get { return _isOptimizationRunning != 0; }
             set
             {
-                _isOptimizationRunning = value;
+                Interlocked.Exchange(ref _isOptimizationRunning, value ? 1 : 0);
                 RaisePropertyChanged();
             }
         }
@@ -822,8 +828,31 @@ namespace WinMemoryCleaner
                 try
                 {
                     var names = allProcesses
-                        .Where(process => process != null && !process.ProcessName.Equals(Constants.App.Name) && !Settings.ProcessExclusionList.Contains(process.ProcessName))
-                        .Select(process => process.ProcessName.ToLower(Localizer.Culture).Replace(".exe", string.Empty))
+                        .Where(process =>
+                        {
+                            try
+                            {
+                                return process != null && !process.ProcessName.Equals(Constants.App.Name) && !Settings.ProcessExclusionList.Contains(process.ProcessName);
+                            }
+                            catch (InvalidOperationException)
+                            {
+                                // Process has exited
+                                return false;
+                            }
+                        })
+                        .Select(process =>
+                        {
+                            try
+                            {
+                                return process.ProcessName.ToLower(Localizer.Culture).Replace(".exe", string.Empty);
+                            }
+                            catch (InvalidOperationException)
+                            {
+                                // Process has exited
+                                return string.Empty;
+                            }
+                        })
+                        .Where(name => !string.IsNullOrEmpty(name))
                         .Distinct()
                         .OrderBy(name => name)
                         .ToList();
@@ -1852,7 +1881,7 @@ namespace WinMemoryCleaner
         {
             try
             {
-                if (_isOptimizationRunning)
+                if (Interlocked.CompareExchange(ref _isOptimizationRunning, 1, 0) != 0)
                     return;
 
                 OptimizationProgressStep = Localizer.String.Optimize;

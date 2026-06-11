@@ -64,10 +64,10 @@ namespace WinMemoryCleaner
                     {
                         Is64Bit = Environment.Is64BitOperatingSystem,
                         IsWindows7OrGreater = (operatingSystem.Version.Major > 6) || (operatingSystem.Version.Major == 6 && operatingSystem.Version.Minor >= 1),
-                        IsWindows8OrGreater = operatingSystem.Version.Major >= 6.2,
-                        IsWindows81OrGreater = operatingSystem.Version.Major >= 6.3,
+                        IsWindows8OrGreater = (operatingSystem.Version.Major > 6) || (operatingSystem.Version.Major == 6 && operatingSystem.Version.Minor >= 2),
+                        IsWindows81OrGreater = (operatingSystem.Version.Major > 6) || (operatingSystem.Version.Major == 6 && operatingSystem.Version.Minor >= 3),
                         IsWindowsVistaOrGreater = operatingSystem.Version.Major >= 6,
-                        IsWindowsXpOrGreater = operatingSystem.Version.Major >= 5.1
+                        IsWindowsXpOrGreater = (operatingSystem.Version.Major > 5) || (operatingSystem.Version.Major == 5 && operatingSystem.Version.Minor >= 1)
                     };
                 }
 
@@ -715,7 +715,7 @@ namespace WinMemoryCleaner
                 if (!SetIncreasePrivilege(Constants.Windows.Privilege.SeDebugName))
                     throw new Exception(string.Format(Localizer.Culture, Localizer.String.ErrorAdminPrivilegeRequired, Constants.Windows.Privilege.SeDebugName));
 
-                var processes = Process.GetProcesses().Where(process => process != null && !Settings.ProcessExclusionList.Contains(process.ProcessName, StringComparer.OrdinalIgnoreCase));
+                var processes = Process.GetProcesses().Where(process => process != null && !Settings.ProcessExclusionList.Contains(process.ProcessName));
 
                 foreach (var process in processes)
                 {

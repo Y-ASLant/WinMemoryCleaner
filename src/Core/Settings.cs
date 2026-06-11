@@ -22,6 +22,7 @@ namespace WinMemoryCleaner
         static Settings()
         {
             Load();
+            Save();
         }
 
         #endregion

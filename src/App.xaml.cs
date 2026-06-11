@@ -291,6 +291,9 @@ namespace WinMemoryCleaner
         /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
         private void OnProcessExit(object sender, EventArgs e)
         {
+            // Flush pending settings before exit
+            Settings.Save();
+
             Dispose();
 
             try
@@ -627,13 +630,12 @@ namespace WinMemoryCleaner
         /// <param name="enable">if set to <c>true</c> [enable].</param>
         public static void RunOnStartup(bool enable)
         {
-            System.Threading.ThreadPool.QueueUserWorkItem(_ =>
-            {
             try
             {
                 if (enable)
                 {
                     var isTaskCreated = false;
+                    string tempXmlFile = null;
 
                     try
                     {
@@ -693,7 +695,7 @@ namespace WinMemoryCleaner
                                 DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture)
                             );
 
-                                var tempXmlFile = System.IO.Path.GetTempFileName();
+                        tempXmlFile = System.IO.Path.GetTempFileName();
 
                         File.WriteAllText(tempXmlFile, taskXml);
 
@@ -716,12 +718,15 @@ namespace WinMemoryCleaner
                             else
                                 Logger.Error(string.Format(Localizer.Culture, "XML task creation failed (will attempt fallback). Error: {0}", errorMessage));
                         }
-
-                        Helper.DeleteFile(tempXmlFile);
                     }
                     catch (Exception ex)
                     {
                         Logger.Error(string.Format(Localizer.Culture, "An exception occurred during XML task creation (will attempt fallback): {0}", ex.GetMessage()));
+                    }
+                    finally
+                    {
+                        if (tempXmlFile != null)
+                            Helper.DeleteFile(tempXmlFile);
                     }
 
                     if (!isTaskCreated)
@@ -767,7 +772,6 @@ namespace WinMemoryCleaner
             {
                 Logger.Error(string.Format(Localizer.Culture, "An error occurred while managing the scheduled task for app startup. Error: {0}", e.GetMessage()));
             }
-            });
         }
 
         /// <summary>
