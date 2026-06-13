@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -15,7 +15,6 @@ namespace WinMemoryCleaner
     {
         #region Fields
 
-        private readonly bool _isSupported = Environment.OSVersion.Version.Major >= 6; // Minimum supported Windows Vista / Server 2003
         private readonly Dictionary<Hotkey, Action> _registered = new Dictionary<Hotkey, Action>();
 
         #endregion
@@ -27,9 +26,6 @@ namespace WinMemoryCleaner
         /// </summary>
         public HotkeyService()
         {
-            if (!_isSupported)
-                return;
-
             Keys = new List<Key>
             (
                 Enum.GetValues(typeof(Key))
@@ -167,7 +163,7 @@ namespace WinMemoryCleaner
 
             try
             {
-                if (!_isSupported || hotkey == null || action == null)
+                if (hotkey == null || action == null)
                     return false;
 
                 Unregister(hotkey);
@@ -196,7 +192,7 @@ namespace WinMemoryCleaner
 
             try
             {
-                if (!_isSupported || hotkey == null)
+                if (hotkey == null)
                     return false;
 
                 result = NativeMethods.UnregisterHotKey(IntPtr.Zero, hotkey.GetHashCode());

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -70,10 +70,7 @@ namespace WinMemoryCleaner
                 _computerService = new ComputerService();
                 _hotKeyService = new HotkeyService();
 
-                Computer.OperatingSystem.IsWindows81OrGreater = true;
                 Computer.OperatingSystem.IsWindows8OrGreater = true;
-                Computer.OperatingSystem.IsWindowsVistaOrGreater = true;
-                Computer.OperatingSystem.IsWindowsXpOrGreater = true;
                 IsOptimizationKeyValid = true;
             }
             else

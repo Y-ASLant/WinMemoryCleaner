@@ -1,4 +1,4 @@
-﻿using Microsoft.Win32.SafeHandles;
+using Microsoft.Win32.SafeHandles;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -63,11 +63,9 @@ namespace WinMemoryCleaner
                     _operatingSystem = new OperatingSystem
                     {
                         Is64Bit = Environment.Is64BitOperatingSystem,
-                        IsWindows7OrGreater = (operatingSystem.Version.Major > 6) || (operatingSystem.Version.Major == 6 && operatingSystem.Version.Minor >= 1),
-                        IsWindows8OrGreater = (operatingSystem.Version.Major > 6) || (operatingSystem.Version.Major == 6 && operatingSystem.Version.Minor >= 2),
+                        IsWindows7OrGreater = true,
                         IsWindows81OrGreater = (operatingSystem.Version.Major > 6) || (operatingSystem.Version.Major == 6 && operatingSystem.Version.Minor >= 3),
-                        IsWindowsVistaOrGreater = operatingSystem.Version.Major >= 6,
-                        IsWindowsXpOrGreater = (operatingSystem.Version.Major > 5) || (operatingSystem.Version.Major == 5 && operatingSystem.Version.Minor >= 1)
+                        IsWindows8OrGreater = (operatingSystem.Version.Major > 6) || (operatingSystem.Version.Major == 6 && operatingSystem.Version.Minor >= 2)
                     };
                 }
 

@@ -73,7 +73,7 @@ namespace WinMemoryCleaner.Test
 
                 Assert.AreSame(os1, os2);
                 Assert.AreEqual(os1.Is64Bit, os2.Is64Bit);
-                Assert.AreEqual(os1.IsWindowsVistaOrGreater, os2.IsWindowsVistaOrGreater);
+                Assert.AreEqual(os1.IsWindows7OrGreater, os2.IsWindows7OrGreater);
             }
 
             [Test]

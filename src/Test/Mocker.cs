@@ -93,9 +93,7 @@ namespace WinMemoryCleaner.Test
                 Is64Bit = true,
                 IsWindows7OrGreater = true,
                 IsWindows8OrGreater = true,
-                IsWindows81OrGreater = true,
-                IsWindowsVistaOrGreater = true,
-                IsWindowsXpOrGreater = true
+                IsWindows81OrGreater = true
             };
         }
 
@@ -110,29 +108,24 @@ namespace WinMemoryCleaner.Test
                 Is64Bit = true,
                 IsWindows7OrGreater = true,
                 IsWindows8OrGreater = false,
-                IsWindows81OrGreater = false,
-                IsWindowsVistaOrGreater = true,
-                IsWindowsXpOrGreater = true
+                IsWindows81OrGreater = false
             };
         }
 
         /// <summary>
-        /// Creates an OperatingSystem object for Windows Vista testing
+        /// Creates an OperatingSystem object for Windows 8 testing
         /// </summary>
-        /// <returns>Windows Vista OperatingSystem object</returns>
-        public static OperatingSystem CreateWindowsVistaOS()
+        /// <returns>Windows 8 OperatingSystem object</returns>
+        public static OperatingSystem CreateWindows8OS()
         {
             return new OperatingSystem
             {
                 Is64Bit = false,
-                IsWindows7OrGreater = false,
-                IsWindows8OrGreater = false,
-                IsWindows81OrGreater = false,
-                IsWindowsVistaOrGreater = true,
-                IsWindowsXpOrGreater = true
+                IsWindows7OrGreater = true,
+                IsWindows8OrGreater = true,
+                IsWindows81OrGreater = false
             };
         }
-
         #endregion
 
         #region Computer Mock Data

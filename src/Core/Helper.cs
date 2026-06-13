@@ -1,11 +1,10 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.InteropServices.ComTypes;
-using System.Text;
-using System.Web.Script.Serialization;
+using System.Text.Json;
 
 namespace WinMemoryCleaner
 {
@@ -49,7 +48,10 @@ namespace WinMemoryCleaner
         /// <returns></returns>
         public static T Deserialize<T>(string obj)
         {
-            return new JavaScriptSerializer().Deserialize<T>(obj);
+            if (string.IsNullOrEmpty(obj))
+                return default;
+
+            return JsonSerializer.Deserialize<T>(obj);
         }
 
         /// <summary>
@@ -62,93 +64,17 @@ namespace WinMemoryCleaner
             if (string.IsNullOrEmpty(json))
                 return string.Empty;
 
-            var sb = new StringBuilder(json.Length * 2);
-            var indent = "  ";
-            var level = 0;
-            var inString = false;
-            var escapeNext = false;
-
-            for (var i = 0; i < json.Length; i++)
+            try
             {
-                var c = json[i];
-
-                if (escapeNext)
+                using (var doc = JsonDocument.Parse(json))
                 {
-                    sb.Append(c);
-                    escapeNext = false;
-                    continue;
-                }
-
-                if (c == '\\')
-                {
-                    sb.Append(c);
-                    escapeNext = true;
-                    continue;
-                }
-
-                if (c == '"')
-                {
-                    sb.Append(c);
-                    inString = !inString;
-                    continue;
-                }
-
-                if (inString)
-                {
-                    sb.Append(c);
-                    continue;
-                }
-
-                switch (c)
-                {
-                    case '{':
-                    case '[':
-                        sb.Append(c);
-                        sb.Append(Environment.NewLine);
-                        level++;
-
-                        for (var j = 0; j < level; j++)
-                            sb.Append(indent);
-                        break;
-
-                    case '}':
-                    case ']':
-                        sb.Append(Environment.NewLine);
-                        level--;
-                        
-                        for (var j = 0; j < level; j++)
-                            sb.Append(indent);
-
-                        sb.Append(c);
-                        break;
-
-                    case ',':
-                        sb.Append(c);
-                        sb.Append(Environment.NewLine);
-                        
-                        for (var j = 0; j < level; j++)
-                            sb.Append(indent);
-                        break;
-
-                    case ':':
-                        sb.Append(c);
-                        sb.Append(' ');
-                        break;
-
-                    case ' ':
-                    case '\t':
-                    case '\r':
-                    case '\n':
-                        // Skip whitespace outside strings
-                        break;
-
-                    default:
-                        sb.Append(c);
-                        break;
+                    return JsonSerializer.Serialize(doc, new JsonSerializerOptions { WriteIndented = true });
                 }
             }
-
-            return sb.ToString();
+            catch
+            {
+                return json;
+            }
         }
 
         /// <summary>
@@ -163,7 +89,7 @@ namespace WinMemoryCleaner
                 if (!string.IsNullOrEmpty(path) && File.Exists(path))
                     return path;
             }
-            catch 
+            catch
             {
                 // ignored
             }
@@ -242,7 +168,7 @@ namespace WinMemoryCleaner
             if (obj == null)
                 throw new ArgumentNullException("obj");
 
-            var json = new JavaScriptSerializer().Serialize(obj.ToJson());
+            var json = JsonSerializer.Serialize(obj.ToJson());
 
             return minified ? json : FormatJson(json);
         }

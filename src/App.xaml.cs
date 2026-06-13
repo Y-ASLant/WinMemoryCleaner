@@ -1,4 +1,4 @@
-﻿using Microsoft.Win32;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -233,8 +233,8 @@ namespace WinMemoryCleaner
                         {
                             try
                             {
-                                // XP/2003 need more stabilization time before reinitialization
-                                Thread.Sleep(Environment.OSVersion.Version.Major < 6 ? 10000 : 5000);
+                                const int stabilizationDelay = 5000;
+                                Thread.Sleep(stabilizationDelay);
 
                                 // Retry logic for handling transient failures during system resume
                                 const int maxRetries = 3;
