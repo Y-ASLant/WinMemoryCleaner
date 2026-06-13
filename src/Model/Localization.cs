@@ -12,7 +12,7 @@ namespace WinMemoryCleaner
     {
         #region Fields
 
-        private string _about, _add, _alwaysOnTop, _autoOptimization, _autoOptimizationInterval;
+        private string _add, _alwaysOnTop, _autoOptimization, _autoOptimizationInterval;
         private string _background;
         private string _close, _closeAfterOptimization, _closeToTheNotificationArea, _collapse, _combinedPageList, _createStartMenuShortcut;
         private string _dangerLevel;
@@ -26,7 +26,7 @@ namespace WinMemoryCleaner
         private string _no;
         private string _optimizationHotkey, _optimize, _optimizeOnMiddleMouseClick, _optimizing;
         private string _physicalMemory, _processExclusionList;
-        private string _reason, _registryCache, _remove, _reset, _resetCommand, _resetConfirmation, _runOnLowPriority, _runOnStartup;
+        private string _reason, _registryCache, _remove, _resetCommand, _resetConfirmation, _runOnLowPriority, _runOnStartup;
         private string _schedule, _seconds, _settings, _showMemoryUsage, _showOptimizationNotifications, _showVirtualMemory, _standbyList, _standbyListLowPriority, _startMinimized, _systemFileCache;
         private string _text, _trayIcon;
         private string _updatedToVersion, _used, _useTransparentBackground;
@@ -37,13 +37,6 @@ namespace WinMemoryCleaner
         #endregion
 
         #region Properties
-
-        [DataMember]
-        public string About
-        {
-            get { return _about; }
-            private set { _about = value.Capitalize(); }
-        }
 
         [DataMember]
         public string Add
@@ -344,13 +337,6 @@ namespace WinMemoryCleaner
         {
             get { return _remove; }
             private set { _remove = value.Capitalize(); }
-        }
-
-        [DataMember]
-        public string Reset
-        {
-            get { return _reset; }
-            private set { _reset = value.Capitalize(); }
         }
 
         [DataMember]

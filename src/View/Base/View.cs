@@ -94,20 +94,6 @@ namespace WinMemoryCleaner
                 window.InvalidateMeasure();
                 window.UpdateLayout();
             }
-
-            // Reopen context menus if needed
-            var helpButton = FindName("HelpButton") as Button;
-
-            if (helpButton != null)
-            {
-                var contextMenu = helpButton.Resources["HelpContextMenu"] as ContextMenu;
-
-                if (contextMenu != null && contextMenu.IsOpen)
-                {
-                    contextMenu.IsOpen = false;
-                    contextMenu.IsOpen = true;
-                }
-            }
         }
     }
 }

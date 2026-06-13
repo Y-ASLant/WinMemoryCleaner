@@ -77,25 +77,10 @@ namespace WinMemoryCleaner.Test
             }
 
             [Test]
-            public void App_Repository_AboutUri_IsValid()
-            {
-                Assert.IsNotNull(Constants.App.Repository.AboutUri);
-                Assert.IsTrue(Constants.App.Repository.AboutUri.IsAbsoluteUri);
-            }
-
-            [Test]
             public void App_Repository_DownloadUri_IsValid()
             {
                 Assert.IsNotNull(Constants.App.Repository.DownloadUri);
                 Assert.IsTrue(Constants.App.Repository.DownloadUri.IsAbsoluteUri);
-            }
-
-            [Test]
-            public void App_Repository_LatestExeUri_IsValid()
-            {
-                Assert.IsNotNull(Constants.App.Repository.LatestExeUri);
-                Assert.IsTrue(Constants.App.Repository.LatestExeUri.IsAbsoluteUri);
-                Assert.IsTrue(Constants.App.Repository.LatestExeUri.ToString().Contains("releases/latest"));
             }
 
             [Test]

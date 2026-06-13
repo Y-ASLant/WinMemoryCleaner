@@ -223,7 +223,6 @@ namespace WinMemoryCleaner.Test
                         
                         // Verify strings are loaded
                         Assert.IsNotNull(Localizer.String);
-                        Assert.IsFalse(string.IsNullOrEmpty(Localizer.String.About));
                         Assert.IsFalse(string.IsNullOrEmpty(Localizer.String.Close));
                         Assert.IsFalse(string.IsNullOrEmpty(Localizer.String.Settings));
                     }

@@ -68,7 +68,6 @@ namespace WinMemoryCleaner
             {
                 private const string GitHub = "https://github.com/IgorMundstein/WinMemoryCleaner";
 
-                public static readonly Uri AboutUri = new Uri(GitHub + "?tab=readme-ov-file#windows-memory-cleaner");
                 public static readonly Uri DownloadUri = new Uri(GitHub + "?tab=readme-ov-file#-download");
                 public static readonly Uri Uri = new Uri(GitHub);
             }

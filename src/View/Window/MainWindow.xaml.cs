@@ -129,35 +129,6 @@ namespace WinMemoryCleaner
         }
 
         /// <summary>
-        /// Called when the help button is clicked.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
-        private void OnHelpButtonClick(object sender, RoutedEventArgs e)
-        {
-            var button = (Button)sender;
-            var contextMenu = button.Resources["HelpContextMenu"] as ContextMenu;
-
-            if (contextMenu != null)
-            {
-                contextMenu.IsOpen = true;
-                contextMenu.Placement = PlacementMode.Bottom;
-                contextMenu.PlacementTarget = button;
-            }
-        }
-
-        /// <summary>
-        /// Called when the help button receives a right mouse button down event.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="MouseButtonEventArgs"/> instance containing the event data.</param>
-        private void OnHelpButtonPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            SetFocusTo(Optimize);
-            e.Handled = true;
-        }
-
-        /// <summary>
         /// Called when the minimize button is clicked.
         /// </summary>
         /// <param name="sender">The sender.</param>
@@ -224,23 +195,6 @@ namespace WinMemoryCleaner
         private void OnProcessesDropDownOpened(object sender, EventArgs e)
         {
             _viewModel.RaisePropertyChanged(() => _viewModel.Processes);
-        }
-
-        /// <summary>
-        /// Called when the reset settings to default configuration menu item is clicked.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
-        private void OnResetSettingsToDefaultConfigurationClick(object sender, RoutedEventArgs e)
-        {
-            var window = new MessageDialog(this, Localizer.String.ResetConfirmation, Enums.Dialog.Button.No, Enums.Dialog.Button.Yes);
-
-            var result = window.ShowDialog();
-
-            if (result == true && _viewModel.ResetSettingsToDefaultConfigurationCommand.CanExecute(null))
-                _viewModel.ResetSettingsToDefaultConfigurationCommand.Execute(null);
-
-            SetFocusTo(Optimize);
         }
 
         /// <summary>
