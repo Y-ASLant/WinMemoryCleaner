@@ -12,7 +12,6 @@ namespace WinMemoryCleaner
         public static class App
         {
             public const int AutoOptimizationMemoryUsageInterval = 5; // Minute
-            public const int AutoUpdateInterval = 24; // Hour
             public const string EmbeddedResourcePath = "WinMemoryCleaner.Resources.";
             public const string EmbeddedResourcePathExtension = ".json";
             public const string Id = "C7F29A45-8B3E-4D2F-9A1C-5E7B2D4F8C6A";
@@ -76,12 +75,9 @@ namespace WinMemoryCleaner
             public static class Repository
             {
                 private const string GitHub = "https://github.com/IgorMundstein/WinMemoryCleaner";
-                private const string GitHubRaw = "https://raw.githubusercontent.com/IgorMundstein/WinMemoryCleaner/main";
 
                 public static readonly Uri AboutUri = new Uri(GitHub + "?tab=readme-ov-file#windows-memory-cleaner");
-                public static readonly Uri AssemblyInfoUri = new Uri(GitHubRaw + "/src/Properties/AssemblyInfo.cs");
                 public static readonly Uri DownloadUri = new Uri(GitHub + "?tab=readme-ov-file#-download");
-                public static readonly Uri LatestExeUri = new Uri(GitHub + "/releases/latest/download/WinMemoryCleaner.exe");
                 public static readonly Uri Uri = new Uri(GitHub);
             }
         }

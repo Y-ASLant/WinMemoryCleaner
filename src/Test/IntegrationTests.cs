@@ -96,26 +96,23 @@ namespace WinMemoryCleaner.Test
             public void Settings_SaveAndLoad_PreservesAllSettings()
             {
                 var originalAlwaysOnTop = Settings.AlwaysOnTop;
-                var originalAutoUpdate = Settings.AutoUpdate;
                 var originalCompactMode = Settings.CompactMode;
-                
+
                 try
                 {
                     // Modify settings
                     Settings.AlwaysOnTop = !originalAlwaysOnTop;
-                    Settings.AutoUpdate = !originalAutoUpdate;
                     Settings.CompactMode = !originalCompactMode;
-                    
+
                     // Save
                     Settings.Save();
-                    
+
                     // Note: Settings.Load is private, just verify settings were modified
                     Assert.AreEqual(!originalAlwaysOnTop, Settings.AlwaysOnTop);
                 }
                 finally
                 {
                     Settings.AlwaysOnTop = originalAlwaysOnTop;
-                    Settings.AutoUpdate = originalAutoUpdate;
                     Settings.CompactMode = originalCompactMode;
                     Settings.Save();
                 }

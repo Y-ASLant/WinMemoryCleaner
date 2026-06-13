@@ -22,12 +22,6 @@ namespace WinMemoryCleaner.Test
             }
 
             [Test]
-            public void App_AutoUpdateInterval_Is24Hours()
-            {
-                Assert.AreEqual(24, Constants.App.AutoUpdateInterval);
-            }
-
-            [Test]
             public void App_Author_Name_IsNotEmpty()
             {
                 Assert.IsNotNull(Constants.App.Author.Name);
@@ -729,14 +723,6 @@ namespace WinMemoryCleaner.Test
             }
 
             [Test]
-            public void IsAutoUpdateSupported_ReturnsBoolean()
-            {
-                var isSupported = Helper.IsAutoUpdateSupported;
-
-                Assert.IsNotNull(isSupported);
-            }
-
-            [Test]
             public void NameOf_WithNullExpression_ThrowsArgumentNullException()
             {
                 Assert.Throws<ArgumentNullException>(() => Helper.NameOf<object>(null));
@@ -1098,12 +1084,6 @@ namespace WinMemoryCleaner.Test
             public void AutoOptimizationMemoryUsage_CanBeAccessed()
             {
                 Assert.DoesNotThrow(() => { var usage = Settings.AutoOptimizationMemoryUsage; });
-            }
-
-            [Test]
-            public void AutoUpdate_CanBeAccessed()
-            {
-                Assert.DoesNotThrow(() => { var autoUpdate = Settings.AutoUpdate; });
             }
 
             [Test]

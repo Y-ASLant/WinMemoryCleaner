@@ -70,8 +70,6 @@ namespace WinMemoryCleaner
                 _computerService = new ComputerService();
                 _hotKeyService = new HotkeyService();
 
-                Settings.AutoUpdate = true;
-
                 Computer.OperatingSystem.IsWindows81OrGreater = true;
                 Computer.OperatingSystem.IsWindows8OrGreater = true;
                 Computer.OperatingSystem.IsWindowsVistaOrGreater = true;
@@ -217,33 +215,6 @@ namespace WinMemoryCleaner
         public string AutoOptimizationMemoryUsageWarning
         {
             get { return string.Format(Localizer.Culture, Localizer.String.AutoOptimizationInterval, Constants.App.AutoOptimizationMemoryUsageInterval); }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether [automatic update].
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if [automatic update]; otherwise, <c>false</c>.
-        /// </value>
-        public bool AutoUpdate
-        {
-            get { return Settings.AutoUpdate; }
-            set
-            {
-                try
-                {
-                    IsBusy = true;
-
-                    Settings.AutoUpdate = Helper.IsAutoUpdateSupported && value;
-                    Settings.MarkDirty();
-
-                    RaisePropertyChanged();
-                }
-                finally
-                {
-                    IsBusy = false;
-                }
-            }
         }
 
         /// <summary>
@@ -977,7 +948,6 @@ namespace WinMemoryCleaner
                     new List<ObservableItem<bool>>
                     {
                        new ObservableItem<bool>(Localizer.String.AlwaysOnTop, () => AlwaysOnTop, value => AlwaysOnTop = value),
-                       new ObservableItem<bool>(Localizer.String.AutoUpdate, () => AutoUpdate, value => AutoUpdate = value, Helper.IsAutoUpdateSupported),
                        new ObservableItem<bool>(Localizer.String.CloseAfterOptimization, () => CloseAfterOptimization, value => CloseAfterOptimization = value),
                        new ObservableItem<bool>(Localizer.String.CloseToTheNotificationArea, () => CloseToTheNotificationArea, value => CloseToTheNotificationArea = value),
                        new ObservableItem<bool>(Localizer.String.CreateStartMenuShortcut, () => CreateStartMenuShortcut, value => CreateStartMenuShortcut = value),
@@ -1673,9 +1643,6 @@ namespace WinMemoryCleaner
                     // Delay
                     if (_cancellationTokenSource.Token.WaitHandle.WaitOne(60000))
                         break;
-
-                    // Update app
-                    Updater.Update();
 
                     // App priority
                     App.SetPriority(Settings.RunOnPriority);

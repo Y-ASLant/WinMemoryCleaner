@@ -219,17 +219,6 @@ namespace WinMemoryCleaner.Test
             }
 
             [Test]
-            public void AutoUpdate_SetValue_UpdatesSettings()
-            {
-                var initialValue = _viewModel.AutoUpdate;
-                var newValue = !initialValue;
-
-                _viewModel.AutoUpdate = newValue;
-
-                Assert.AreEqual(newValue, _viewModel.AutoUpdate);
-            }
-
-            [Test]
             public void Brushes_ReturnsNonEmptyCollection()
             {
                 var brushes = _viewModel.Brushes;
