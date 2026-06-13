@@ -55,14 +55,6 @@ namespace WinMemoryCleaner
                 public static readonly string Path = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
             }
 
-            public static class Donation
-            {
-                public static readonly Uri BitcoinUri = new Uri("https://www.blockchain.com/explorer/addresses/btc/bc1qu884q5r2uqugvdhyk8l6waakumeve7jykqp7ap");
-                public static readonly Uri EthereumUri = new Uri("https://www.blockchain.com/explorer/addresses/eth/0xb71A94733B0578D155D9A765E0d2C4dA0f44156d");
-                public static readonly Uri GitHubSponsorUri = new Uri("https://github.com/sponsors/IgorMundstein");
-                public static readonly Uri KofiUri = new Uri("https://ko-fi.com/igormundstein");
-            }
-
             public static class Registry
             {
                 public static class Key
